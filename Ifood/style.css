@@ -1,0 +1,95 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Inter", Arial, Helvetica, sans-serif;
+    font-size: 16px;
+}
+
+div {
+    display: block;
+}
+
+.cabecario{
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: #f7f7f7;
+    z-index: 9997;
+}
+
+.cabecario_container {
+    display: grid;
+    padding: 40px 32px;
+    align-items: center;
+    margin: 0 auto;
+    max-width: 1278px;
+    position: relative;
+    grid-template-columns: 88px 1fr 114px 104px;
+    column-gap: 20px;
+}
+
+.opcoes {
+    background: transparent;
+    font-weight: 400;
+    color: #3e3e3e;
+    font-size: 1rem;
+    line-height: 1.25em;
+    border-radius: 4px;
+    margin: 3px 0;
+    height: 50px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    padding: 0 20px;
+}
+
+.icone {
+    display: inline-block;
+    position:relative;
+}
+
+.icone * {
+    fill: red;
+}
+
+@media only screen and (min-width: 768px) {
+    .botaoCriarConta{
+        display: inline-flex;
+        height: 44px;
+    }
+}
+
+
+.botao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    padding: 0;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    font-family: "Inter", Arial, Helvetica, sans-serif;
+    font-size:100%;
+    line-height: 1.15;
+}
+
+
+.CriarConta {
+    background: transparent;
+    color: #ea1d2c;
+}
+
+
+.Entrar {
+    background-color: #ea1d2c;
+    color: white;
+}
