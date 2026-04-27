@@ -98,7 +98,7 @@ form {
 }
 
 @media only screen and (min-width: 768px) {
-    .botaoCriarConta{
+    .botao{
         display: inline-flex;
         height: 44px;
     }
@@ -124,6 +124,13 @@ form {
     background-color: #ea1d2c;
     color: white;
 }
+
+@media only screen and (min-width: 960px) {
+    .Entrar:hover, .Entrar:hover:enabled {
+        background: #ee4c58;
+    }
+}
+
 
 .endereco {
     padding-top: 83px;
@@ -284,4 +291,185 @@ form {
 
 .endereco_form_pacote:focus-within {
     border: 2px solid #e7e6e6ee;
+}
+
+.categorias::before {
+    position: absolute;
+    content: "";
+    width: 100vw;
+    height: 50%;
+    background-color: #f7f7f7;
+    z-index: -1;
+    left: 0;
+    bottom: 50%;
+    transform: translateY(-50%);
+}
+
+.categorias {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+}
+
+.categorias_pacote {
+    width: 90%;
+    max-width: 842px;
+}
+
+.categorias_principais {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 180px;
+    width: 100%;
+}
+
+@media only screen and (min-width: 960px) {
+    .categorias_principais {
+        height: 214px;
+    }
+}
+
+.categorias_principais_grande {
+    width: 48%;
+    transition: opacity 1.5s ease;
+    height: 100%;
+    cursor: pointer;
+}
+
+.categorias_grande {
+    width: 100%;
+    border-radius: 20px;
+    text-align: center;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    overflow: hidden;
+    text-decoration: none;
+}
+
+.restaurante {
+    background-color: #ea1d2c;
+    transition: all .2s cubic-bezier(0, 0, .5, 1);
+}
+
+.mercado {
+    background-color: #b6d048;
+    transition: all .2s cubic-bezier(0, 0, .5, 1);
+}
+
+.categorias_grande_container {
+    width: 80%;
+    cursor: pointer;
+}
+
+@media only screen and (min-width: 768px) {
+    .categorias_grande_container {
+        position: relative;
+        display: flex;
+        height: 100%;
+        width: 90%;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: space-around;
+    }
+}
+
+.categorias_grande_container_titulo {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin: 0 0 10px;
+}
+
+@media only screen and (min-width: 768px) {
+    .categorias_grande_container_titulo {
+        font-size: 1.5rem;
+    }
+}
+
+@media only screen and (min-width: 960px) {
+    .categorias_grande_container_titulo {
+        font-size: 2.25rem;
+    }
+}
+
+.categorias_grande_container_imagem {
+    height: 75px;
+    width: 90%;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+@media only screen and (min-width: 768px) {
+    .categorias_grande_container_imagem {
+        overflow: visible;
+        position: absolute;
+        right: -14px;
+        width: 62%;
+        height: auto;
+        bottom: 8px;
+    }
+}
+
+.categorias_grande_imagem {
+    object-fit: contain;
+    resize: auto;
+    height: 100%;
+    width: 100%;
+}
+
+@media only screen and (min-width: 768px) {
+    .categorias_grande_container_imagem {
+        transform: translateY(16px);
+    }
+}
+
+.categorias_grande_link {
+    display: flex;
+    width: 100%;
+    height: 36px;
+    border-radius: 12px;
+    font-size: .875rem;
+    justify-content: space-around;
+    font-weight: 500;
+    align-items: center;
+    padding: 0 5px;
+}
+
+.--restaurante {
+    background-color: #cc1825;
+}
+
+.--mercado {
+    background-color: #9eb53e;
+}
+
+@media only screen and (min-width: 768px) {
+    .categorias_grande_link {
+        width: 118px;
+        font-weight: 200;
+        padding: 0 12px;
+    }
+}
+
+@media only screen and (min-width: 960px) {
+    .categorias_grande_link {
+        width: 146px;
+        font-weight: 500;
+        font-size: 1rem;
+    }
+}
+
+.categorias_grande_link_icon {
+    display: flex;
+}
+
+.categorias_grande_link_icon svg {
+    color: #fff;
+    width: 15px;
+    height: 17px;
 }
