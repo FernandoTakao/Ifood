@@ -471,54 +471,122 @@ form {
 .categorias_grande_link_icon svg {
     color: #fff;
     width: 15px;
-    height: 17px;
+    height: 10px;
 }
 
-.mini-categorias {
+.mini_categorias {
+    width: 90%;
+    max-width: 842px;
     display: flex;
-    justify-content: center;
-    gap: 40px;
-    padding: 40px;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
-/* CARD */
-.mini-card {
-    text-align: center;
+.mini_categorias_link {
+    height: 85px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 0 auto;
     cursor: pointer;
+    text-decoration: none;
 }
 
-/* BLOCO COLORIDO */
-.mini-card::before {
-    content: "";
-    display: block;
-    width: 180px;
-    height: 60px;
-    border-radius: 10px;
-    margin-bottom: -30px;
+@media only screen and (min-width: 768px) {
+    .mini_categorias_link {
+        height: 130px;
+        margin: 0;
+    }
 }
 
-/* CORES */
-.amarelo::before {
-    background: #e9c84a;
-}
-
-.rosa::before {
-    background: #e57383;
-}
-
-.roxo::before {
-    background: #7e57c2;
-}
-
-
-.mini-card img {
-    height: 80px;
+.mini_categorias_link_pacote_imagem {
+    margin: 0;
+    padding: 0;
+    width: 96px;
+    height: 24px;
+    border-radius: 6px;
     position: relative;
-    z-index: 1;
 }
 
+.bebidas {
+    background-color: #f6d553;
+}
 
-.mini-card p {
-    margin-top: 10px;
-    font-weight: 500;
+.farmacia {
+    background-color: #f9879c
+}
+
+.petshop {
+    background-color: #8c60c5;
+}
+
+@media only screen and (min-width: 768px) {
+    .mini_categorias_link_pacote_imagem {
+        width: 150px;
+        height: 38px;
+    }
+}
+
+.mini_categorias_link_imagem {
+    position: absolute;
+    bottom: 0;
+    right: 50%;
+    transform: translateX(50%);
+}
+
+.--bebidas {
+    width: 74px;
+}
+
+@media only screen and (min-width: 768px) {
+    .--bebidas {
+        width: 120px;
+    }
+}
+
+.--farmacia {
+    width: 56px;
+}
+
+@media only screen and (min-width: 768px) {
+    .--farmacia {
+        width: 82px;
+    }
+}
+
+.--petshop {
+    width: 70px;
+}
+
+@media only screen and (min-width: 768px) {
+    .--petshop {
+        width: 110px;
+    }
+}
+
+.mini_categorias_link_titulo {
+    margin: 10px 0 0;
+    text-align: center;
+    font-size: .875rem;
+    display: flex;
+    color: #1a1a1a;
+}
+
+@media only screen and (min-width: 768px) {
+    .mini_categorias_link_titulo {
+        font-weight: 500;
+        font-size: 1rem;
+    }
+}
+
+.mini_categorias_link_icon svg {
+  width: 20px;
+  height: 10px;
+}
+
+.mini_categorias_link_icon {
+  color: #ea1d2c; 
+  display: flex;
+  align-items: center;
 }
