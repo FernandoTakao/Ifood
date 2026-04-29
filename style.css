@@ -473,3 +473,52 @@ form {
     width: 15px;
     height: 17px;
 }
+
+.mini-categorias {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 40px;
+}
+
+/* CARD */
+.mini-card {
+    text-align: center;
+    cursor: pointer;
+}
+
+/* BLOCO COLORIDO */
+.mini-card::before {
+    content: "";
+    display: block;
+    width: 180px;
+    height: 60px;
+    border-radius: 10px;
+    margin-bottom: -30px;
+}
+
+/* CORES */
+.amarelo::before {
+    background: #e9c84a;
+}
+
+.rosa::before {
+    background: #e57383;
+}
+
+.roxo::before {
+    background: #7e57c2;
+}
+
+
+.mini-card img {
+    height: 80px;
+    position: relative;
+    z-index: 1;
+}
+
+
+.mini-card p {
+    margin-top: 10px;
+    font-weight: 500;
+}
