@@ -45,13 +45,47 @@ form {
 
 .cabecario_container {
     display: grid;
-    padding: 40px 32px;
+    padding: 20px 16px;
     align-items: center;
     margin: 0 auto;
     max-width: 1278px;
     position: relative;
     grid-template-columns: 88px 1fr 114px 104px;
     column-gap: 20px;
+}
+
+.icon_frame {
+    color:gray;
+    overflow: hidden;
+    height: 30px;
+    width: 30px;
+    margin: 5px 0px;
+}
+
+@media only screen and (min-width: 768px) {
+    .cabecario_container {
+        grid-template-columns: 40px 1fr 114px 104px;
+        padding: 30px 44px 30px 30px;
+        grid-column-gap: 36px;
+        column-gap: 36px;
+    }
+
+    .icon_frame {
+        display: none;
+    }
+}
+
+@media only screen and (min-width: 960px) {
+    .cabecario_container {
+        grid-template-columns: 88px 1fr 114px 104px;
+        padding: 40px 32px;
+        grid-column-gap: 20px;
+        column-gap: 20px;
+    }
+
+    .icon_frame {
+        display: none;
+    }
 }
 
 .opcoes {
@@ -72,6 +106,10 @@ form {
     padding: 0 20px;
 }
 
+.icon_frame {
+    height: 48px;
+}
+
 .icone {
     display: inline-block;
     position:relative;
@@ -81,11 +119,12 @@ form {
     fill: #ea1d2c;
 }
 
+
 .botao {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 44px;
+    height: 34px;
     padding: 0;
     border-radius: 6px;
     font-size: 14px;
@@ -93,8 +132,8 @@ form {
     cursor: pointer;
     border: none;
     font-family: "Inter", Arial, Helvetica, sans-serif;
-    font-size:100%;
     line-height: 1.15;
+    overflow: hidden;
 }
 
 @media only screen and (min-width: 768px) {
@@ -106,6 +145,7 @@ form {
 
 .navegacao {
     display: none;
+    min-width: 0;
 } 
 
 @media only screen and (min-width: 960px) {
@@ -113,6 +153,7 @@ form {
         display: flex;
     }
 }
+
 
 .CriarConta {
     background: transparent;
