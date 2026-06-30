@@ -735,3 +735,38 @@ form {
     max-height: 80vh;
     overflow-y: auto;
 }
+.carrinho{
+    position: fixed;
+    top:20px;
+    right:20px;
+    background:#ea1d2c;
+    color:white;
+    padding:10px 18px;
+    border-radius:25px;
+    cursor:pointer;
+    font-weight:bold;
+    z-index:2000;
+    box-shadow:0 5px 15px rgba(0,0,0,.2);
+}
+
+.carrinho:hover{
+    opacity:.9;
+}
+
+.itemCarrinho{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:12px 0;
+    padding:10px;
+    border-bottom:1px solid #ddd;
+}
+
+.itemCarrinho button{
+    background:#ea1d2c;
+    color:white;
+    border:none;
+    padding:6px 10px;
+    border-radius:6px;
+    cursor:pointer;
+}
