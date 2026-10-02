@@ -9,7 +9,7 @@ services:
       MYSQL_DATABASE: ifood
       MYSQL_USER: ifood_user
       MYSQL_PASSWORD: ifood_password
-    
+
     ports:
       - "3306:3306"
 
