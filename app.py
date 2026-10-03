@@ -1,15 +1,20 @@
-from flask import Flask, jsonify
-from controllers.userController import buscar_usuario
+from flask import Flask
+
+from controllers.restaurantController import buscar_restaurante
+from controllers.alimentoController import buscar_alimentos_controller
 
 app = Flask(__name__)
 
-app.json.ensure_ascii = False 
 
-@app.route("/usuarios/<int:usuario_id>", methods=["GET"])
-def obter_usuario(usuario_id):
-    usuario, status = buscar_usuario(usuario_id)
+@app.route("/restaurantes", methods=["GET"])
+def restaurantes():
+    return buscar_restaurante()
 
-    return jsonify(usuario), status
+
+@app.route("/alimentos", methods=["GET"])
+def alimentos():
+    return buscar_alimentos_controller()
+
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=3000)
+    app.run(debug=True)
