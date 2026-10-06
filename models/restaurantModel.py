@@ -1,37 +1,47 @@
 from database import get_connection
 
 
-def buscar_restaurante_por_nome(nome):
+def listar_restaurantes(nome, limite, offset):
     conexao = get_connection()
     cursor = conexao.cursor(dictionary=True)
-
     query = """
-        SELECT
-            r.id AS restaurante_id,
-            r.nome AS restaurante_nome,
-            r.descricao AS restaurante_descricao,
-            r.categoria,
-            r.imagem AS restaurante_imagem,
-
-            a.id AS alimento_id,
-            a.nome AS alimento_nome,
-            a.descricao AS alimento_descricao,
-            a.preco,
-            a.imagem AS alimento_imagem
-
-        FROM restaurantes r
-
-        LEFT JOIN alimentos a
-            ON a.restaurante_id = r.id
-
-        WHERE r.nome LIKE %s
+        SELECT id, nome, descricao, categoria, imagem
+        FROM restaurantes
+        WHERE nome LIKE %s
+        LIMIT %s OFFSET %s
     """
-
-    cursor.execute(query, (f"%{nome}%",))
-
-    resultado = cursor.fetchall()
-
+    cursor.execute(query, (f"%{nome}%", limite, offset))
+    restaurantes = cursor.fetchall()
     cursor.close()
     conexao.close()
+    return restaurantes
 
-    return resultado
+
+def contar_restaurantes(nome):
+    conexao = get_connection()
+    cursor = conexao.cursor()
+    query = """
+        SELECT COUNT(*)
+        FROM restaurantes
+        WHERE nome LIKE %s
+    """
+    cursor.execute(query, (f"%{nome}%",))
+    total = cursor.fetchone()[0]
+    cursor.close()
+    conexao.close()
+    return total
+
+
+def buscar_restaurante_por_id(id_restaurante):
+    conexao = get_connection()
+    cursor = conexao.cursor(dictionary=True)
+    query = """
+        SELECT id, nome, descricao, categoria, imagem
+        FROM restaurantes
+        WHERE id = %s
+    """
+    cursor.execute(query, (id_restaurante,))
+    restaurante = cursor.fetchone()
+    cursor.close()
+    conexao.close()
+    return restaurante

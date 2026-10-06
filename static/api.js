@@ -6,26 +6,17 @@
 // URL base do servidor Flask (altere se usar outra porta/host)
 const API_URL = "http://localhost:5000";
 
-// ---------------------------------------------------------------------
-// ENDPOINTS — SUBSTITUIR PELOS ENDPOINTS REAIS DO BACK-END
-// Enquanto contiverem "...", o front mostra um aviso de "não configurado".
-// ---------------------------------------------------------------------
 const ENDPOINTS = {
-  // SUBSTITUIR PELO ENDPOINT REAL DO BACK-END (listar restaurantes, paginado)
-  restaurantes: `${API_URL}/...`,
-  // SUBSTITUIR PELO ENDPOINT REAL DO BACK-END (buscar restaurantes por termo)
-  buscaRestaurantes: `${API_URL}/...`,
-  // SUBSTITUIR PELO ENDPOINT REAL DO BACK-END (produtos de um restaurante)
-  produtosDoRestaurante: (idRestaurante) => `${API_URL}/.../${idRestaurante}/...`,
-  // SUBSTITUIR PELO ENDPOINT REAL DO BACK-END (buscar produtos por termo)
-  buscaProdutos: `${API_URL}/...`,
+  restaurantes: `${API_URL}/restaurantes`,
+  restaurante: (idRestaurante) => `${API_URL}/restaurantes/${idRestaurante}`,
+  produtosDoRestaurante: (idRestaurante) => `${API_URL}/restaurantes/${idRestaurante}/alimentos`,
+  alimentos: `${API_URL}/alimentos`,
 };
 
-// Nomes dos parâmetros de query string — AJUSTAR conforme o Flask
 const PARAMS = {
-  termo: "q",        // SUBSTITUIR se a rota usar outro nome (ex.: "nome", "termo")
-  pagina: "page",    // SUBSTITUIR se necessário (ex.: "pagina")
-  limite: "per_page" // SUBSTITUIR se necessário (ex.: "limite")
+  termo: "nome",
+  pagina: "page",
+  limite: "limit"
 };
 
 const ITENS_POR_PAGINA = 6;
@@ -42,15 +33,8 @@ class ApiError extends Error {
   }
 }
 
-// Última requisição (usada pelo painel "Resposta da API")
-let ultimaRequisicao = null;
-
 // Função base: monta a URL com query string, chama fetch e trata erros
 async function requisicao(url, params = {}) {
-  if (url.includes("...")) {
-    throw new ApiError("config", "Endpoint ainda não configurado. Edite js/api.js e substitua a URL marcada.");
-  }
-
   const query = new URLSearchParams();
   Object.entries(params).forEach(([k, v]) => {
     if (v !== undefined && v !== null && v !== "") query.set(k, v);
@@ -72,8 +56,6 @@ async function requisicao(url, params = {}) {
     if (resposta.ok) throw new ApiError("json", "A API respondeu, mas o conteúdo não é um JSON válido.", resposta.status);
   }
 
-  ultimaRequisicao = { metodo: "GET", url: urlFinal, status: resposta.status, dados };
-
   if (!resposta.ok) {
     throw new ApiError("http", `A API retornou erro HTTP ${resposta.status}.`, resposta.status);
   }
@@ -94,11 +76,15 @@ function listarRestaurantes(pagina = 1) {
 
 // Busca restaurantes por termo (com paginação)
 function buscarRestaurantes(termo, pagina = 1) {
-  return requisicao(ENDPOINTS.buscaRestaurantes, {
+  return requisicao(ENDPOINTS.restaurantes, {
     [PARAMS.termo]: termo,
     [PARAMS.pagina]: pagina,
     [PARAMS.limite]: ITENS_POR_PAGINA,
   });
+}
+
+function obterRestaurante(idRestaurante) {
+  return requisicao(ENDPOINTS.restaurante(idRestaurante));
 }
 
 // Lista os produtos (cardápio) de um restaurante (com paginação)
@@ -111,7 +97,7 @@ function listarProdutosDoRestaurante(idRestaurante, pagina = 1) {
 
 // Busca produtos por termo (com paginação)
 function buscarProdutos(termo, pagina = 1) {
-  return requisicao(ENDPOINTS.buscaProdutos, {
+  return requisicao(ENDPOINTS.alimentos, {
     [PARAMS.termo]: termo,
     [PARAMS.pagina]: pagina,
     [PARAMS.limite]: ITENS_POR_PAGINA,
