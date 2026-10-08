@@ -1,7 +1,7 @@
 from database import get_connection
 
 
-def buscar_alimentos(nome, limite, offset):
+def buscar_alimentos(nome):
     conexao = get_connection()
     cursor = conexao.cursor(dictionary=True)
 
@@ -15,10 +15,10 @@ def buscar_alimentos(nome, limite, offset):
             imagem
         FROM alimentos
         WHERE nome LIKE %s
-        LIMIT %s OFFSET %s
+        ORDER BY nome
     """
 
-    cursor.execute(query, (f"%{nome}%", limite, offset))
+    cursor.execute(query, (f"%{nome}%",))
 
     alimentos = cursor.fetchall()
 
@@ -27,27 +27,7 @@ def buscar_alimentos(nome, limite, offset):
 
     return alimentos
 
-def contar_alimentos(nome):
-    conexao = get_connection()
-    cursor = conexao.cursor()
-
-    query = """
-        SELECT COUNT(*)
-        FROM alimentos
-        WHERE nome LIKE %s
-    """
-
-    cursor.execute(query, (f"%{nome}%",))
-
-    total = cursor.fetchone()[0]
-
-    cursor.close()
-    conexao.close()
-
-    return total
-
-
-def listar_alimentos_por_restaurante(id_restaurante, limite, offset):
+def listar_alimentos_por_restaurante(id_restaurante):
     conexao = get_connection()
     cursor = conexao.cursor(dictionary=True)
 
@@ -55,28 +35,11 @@ def listar_alimentos_por_restaurante(id_restaurante, limite, offset):
         SELECT id, restaurante_id, nome, descricao, preco, imagem
         FROM alimentos
         WHERE restaurante_id = %s
-        LIMIT %s OFFSET %s
+        ORDER BY nome
     """
-    cursor.execute(query, (id_restaurante, limite, offset))
+    cursor.execute(query, (id_restaurante,))
     alimentos = cursor.fetchall()
 
     cursor.close()
     conexao.close()
     return alimentos
-
-
-def contar_alimentos_por_restaurante(id_restaurante):
-    conexao = get_connection()
-    cursor = conexao.cursor()
-
-    query = """
-        SELECT COUNT(*)
-        FROM alimentos
-        WHERE restaurante_id = %s
-    """
-    cursor.execute(query, (id_restaurante,))
-    total = cursor.fetchone()[0]
-
-    cursor.close()
-    conexao.close()
-    return total

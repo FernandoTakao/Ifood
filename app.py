@@ -21,6 +21,11 @@ def restaurantes():
     return buscar_restaurante()
 
 
+@app.route("/restaurantes/<string:nome>", methods=["GET"])
+def restaurantes_por_nome(nome):
+    return buscar_restaurante(nome)
+
+
 @app.route("/restaurantes/<int:id_restaurante>", methods=["GET"])
 def restaurante_por_id(id_restaurante):
     return buscar_restaurante_por_id_controller(id_restaurante)
@@ -31,9 +36,9 @@ def alimentos_do_restaurante(id_restaurante):
     return buscar_alimentos_do_restaurante(id_restaurante)
 
 
-@app.route("/alimentos", methods=["GET"])
-def alimentos():
-    return buscar_alimentos_controller()
+@app.route("/alimentos/<string:nome>", methods=["GET"])
+def alimentos_por_nome(nome):
+    return buscar_alimentos_controller(nome)
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -43,7 +43,8 @@ h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 1rem; }
 
 /* Cards */
 .grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
-.card { background: var(--superficie); border: 1px solid var(--borda); border-radius: 10px; padding: 1.1rem 1.25rem; display: flex; flex-direction: column; }
+.card { background: var(--superficie); border: 1px solid var(--borda); border-radius: 10px; padding: 1.1rem 1.25rem; display: flex; flex-direction: column; overflow: hidden; }
+.card-imagem { width: calc(100% + 2.5rem); height: 180px; margin: -1.1rem -1.25rem 1rem; object-fit: cover; background: var(--borda); }
 .card h3 { margin: 0.4rem 0 0.5rem; font-size: 1.1rem; }
 .badge { font-size: 0.78rem; font-weight: 700; color: var(--primaria); background: #e4f3ec; padding: 0.15rem 0.55rem; border-radius: 99px; }
 .campos { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 0.2rem 0.75rem; font-size: 0.92rem; }
@@ -59,7 +60,7 @@ h2 { font-size: 1.35rem; font-weight: 700; margin: 0 0 1rem; }
 .spinner { display: inline-block; width: 1.4rem; height: 1.4rem; margin-bottom: 0.5rem; border: 3px solid var(--borda); border-top-color: var(--primaria); border-radius: 50%; animation: gira 0.8s linear infinite; }
 @keyframes gira { to { transform: rotate(360deg); } }
 
-/* Paginação */
+/* Paginação local */
 .paginacao { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-top: 1.25rem; }
 .paginacao:empty { display: none; }
 .pagina-atual { font-weight: 600; color: var(--suave); }

@@ -54,26 +54,26 @@ VALUES
     'Pizza Calabresa',
     'Pizza de calabresa com queijo e cebola',
     39.90,
-    'https://imgs.search.brave.com/zJuJB0V5LMccxTRtdn8JXvmr9MXc8mDPK7601MO3yHI/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlezky/YXku/Y29tL3RpL2ZvdG9z/LWdyYXRpcy90Mi8z/MTQwMTc2LXBpenph/LWNhbGFicmVzYS1j/b20tbXVzc2FyZWxh/LXF1ZWlqby1zYWxh/bWUtcHJlc3VudG8t/Zm90by5KUEc'
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRt7BdtOedv3Thmx12N6g-ve9RKbRemz9y0YOzncXVBVg&s=10'
 ),
 (
     1,
     'Pizza Frango com Catupiry',
     'Pizza de frango com catupiry',
     42.90,
-    'https://imgs.search.brave.com/aaGHFrqq3ytz_B6Hqn6tnqCeEKFw_9_kjhBoLbmeBWM/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly90aHVt/YnMuZHJlYW1zdGlt/ZS5jb20vYi9waXp6/YS1kby1waW5oJUMz/JUEzby1kYS1nYWxp/bmhhLTU0MTg1MTA1/LmpwZw'
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYUAwBYjruhGpwPckXO59nYWRx61wnwBQ0GzatwjqvoQ&s=10'
 ),
 (
     2,
     'X-Burger',
     'Hambúrguer com queijo, alface e tomate',
     25.90,
-    'https://imgs.search.brave.com/OE11VxDcT8bJEgYXcbi2fzdMbDPrQwpecDFAtNa_Sg8/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWcu/bWFnbmlmaWMuY29t/L2ZvdG9zLXByZW1p/dW0vZGVsaWNpb3Nv/LWhhbWJ1cmd1ZXIt/dm9hZG9yLXNvYnJl/LXVtYS1tZXNhLWhh/bWJ1cmd1ZXItZGUt/cXVlaXpvLWNvbS1i/YWNvbl8xMjkzMjM5/LTI3NzguanBnP3Nl/bXQ9YWlzX2h5YnJp/ZCZ3PTc0MCZxPTgw'
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_7GmNDgmfB_qxpE1wCQDwzSBZGoCQvnKIPXZly8ZYXQ&s=10'
 ),
 (
     2,
     'X-Bacon',
     'Hambúrguer com queijo e bacon',
     29.90,
-    'https://imgs.search.brave.com/VmFQY0pMKjHDInWROzZLClLb2eSvXiUMLA5lCKc1XOA/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWFn/ZW5zLmpvYWthLmNv/bS9wcm9kdXRvcy9y/MjUyMC81ODdCMkE2/OEQwQjQ1NEI0MjUxNkQ5NUNBRDFFMjE2ODNCMUZEQThDQTk3NjRFQjE4OTg5QjU3MTA3MUQ3MDMzLmpwZWc'
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbj8oPRJhbMMfeBRDEnt7rOGs8xXgXhcZQy37-W6RK0w&s=10'
 );

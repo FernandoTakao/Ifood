@@ -4,9 +4,9 @@
 
 const $ = (id) => document.getElementById(id);
 
-// Estado de cada lista: o que está sendo exibido e em qual página
-const estadoRest = { modo: "todos", termo: "", pagina: 1 };
-const estadoProd = { modo: null, termo: "", pagina: 1, restaurante: null };
+const ITENS_POR_PAGINA = 6;
+const estadoRest = { modo: "todos", termo: "", pagina: 1, itens: [] };
+const estadoProd = { modo: null, termo: "", restaurante: null, pagina: 1, itens: [] };
 
 /* ---------- Utilidades de DOM ---------- */
 function el(tag, classe, texto) {
@@ -24,21 +24,18 @@ function mostrarEstado(container, tipo, mensagem) {
   container.append(caixa);
 }
 
-/* ---------- Paginação ---------- */
-function lerPaginacao(dados) {
-  const total = Number(dados.total);
-  const limite = Number(dados.limite);
-  const totalPaginas = Number.isFinite(total) ? Math.ceil(total / limite) : 0;
-  return {
-    temAnterior: dados.pagina > 1,
-    temProxima: dados.pagina < totalPaginas,
-    totalPaginas,
-  };
-}
-
 /* ---------- Renderização ---------- */
 function criarCard(item, textoBotao, aoClicar) {
   const card = el("article", "card");
+
+  if (item.imagem) {
+    const imagem = el("img", "card-imagem");
+    imagem.src = item.imagem;
+    imagem.alt = item.nome ? `Imagem de ${item.nome}` : "Imagem do item";
+    imagem.loading = "lazy";
+    imagem.addEventListener("error", () => imagem.remove());
+    card.append(imagem);
+  }
 
   const topo = el("div", "card-topo");
   if (item.id !== undefined) topo.append(el("span", "badge", `ID ${item.id}`));
@@ -47,7 +44,7 @@ function criarCard(item, textoBotao, aoClicar) {
 
   const dl = el("dl", "campos");
   Object.entries(item).forEach(([chave, valor]) => {
-    if (chave === "id" || chave === "nome" || valor === null || valor === "") return;
+    if (chave === "id" || chave === "nome" || chave === "imagem" || valor === null || valor === "") return;
     const texto = chave === "preco"
       ? Number(valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })
       : String(valor);
@@ -64,39 +61,67 @@ function criarCard(item, textoBotao, aoClicar) {
   return card;
 }
 
-function renderizarPaginacao(nav, pagina, info, aoMudar) {
+function renderizarPaginacao(nav, pagina, totalItens, aoMudar) {
   nav.replaceChildren();
-  const ant = el("button", "btn btn-secundario", "Anterior");
-  const prox = el("button", "btn btn-secundario", "Próxima");
-  ant.type = prox.type = "button";
-  ant.disabled = !info.temAnterior;
-  prox.disabled = !info.temProxima;
-  ant.addEventListener("click", () => aoMudar(pagina - 1));
-  prox.addEventListener("click", () => aoMudar(pagina + 1));
-  const rotulo = info.totalPaginas ? `Página ${pagina} de ${info.totalPaginas}` : `Página ${pagina}`;
-  nav.append(ant, el("span", "pagina-atual", rotulo), prox);
+  const totalPaginas = Math.ceil(totalItens / ITENS_POR_PAGINA);
+  if (totalPaginas <= 1) return;
+
+  const anterior = el("button", "btn btn-secundario", "Anterior");
+  const proxima = el("button", "btn btn-secundario", "Próxima");
+  anterior.type = proxima.type = "button";
+  anterior.disabled = pagina === 1;
+  proxima.disabled = pagina === totalPaginas;
+  anterior.addEventListener("click", () => aoMudar(pagina - 1));
+  proxima.addEventListener("click", () => aoMudar(pagina + 1));
+  nav.append(anterior, el("span", "pagina-atual", `Página ${pagina} de ${totalPaginas}`), proxima);
+}
+
+function itensDaPagina(itens, pagina) {
+  const inicio = (pagina - 1) * ITENS_POR_PAGINA;
+  return itens.slice(inicio, inicio + ITENS_POR_PAGINA);
+}
+
+function exibirRestaurantes() {
+  const lista = $("lista-restaurantes");
+  const nav = $("paginacao-restaurantes");
+  lista.replaceChildren();
+  const grade = el("div", "grade");
+  itensDaPagina(estadoRest.itens, estadoRest.pagina)
+    .forEach((item) => grade.append(criarCard(item, "Ver cardápio", abrirCardapio)));
+  lista.append(grade);
+  renderizarPaginacao(nav, estadoRest.pagina, estadoRest.itens.length, (pagina) => {
+    estadoRest.pagina = pagina;
+    exibirRestaurantes();
+  });
+}
+
+function exibirProdutos() {
+  const lista = $("lista-produtos");
+  const nav = $("paginacao-produtos");
+  lista.replaceChildren();
+  const grade = el("div", "grade");
+  itensDaPagina(estadoProd.itens, estadoProd.pagina)
+    .forEach((item) => grade.append(criarCard(item)));
+  lista.append(grade);
+  renderizarPaginacao(nav, estadoProd.pagina, estadoProd.itens.length, (pagina) => {
+    estadoProd.pagina = pagina;
+    exibirProdutos();
+  });
 }
 
 /* ---------- Restaurantes ---------- */
 async function carregarRestaurantes() {
   const lista = $("lista-restaurantes");
-  const nav = $("paginacao-restaurantes");
-  nav.replaceChildren();
+  $("paginacao-restaurantes").replaceChildren();
   mostrarEstado(lista, "carregando", "Carregando restaurantes...");
   try {
     const dados = estadoRest.modo === "busca"
-      ? await buscarRestaurantes(estadoRest.termo, estadoRest.pagina)
-      : await listarRestaurantes(estadoRest.pagina);
+      ? await buscarRestaurantes(estadoRest.termo)
+      : await listarRestaurantes();
     const itens = dados.restaurantes;
     if (!itens.length) return mostrarEstado(lista, "vazio", "Nenhum restaurante encontrado.");
-    lista.replaceChildren();
-    const grade = el("div", "grade");
-    itens.forEach((item) => grade.append(criarCard(item, "Ver cardápio", abrirCardapio)));
-    lista.append(grade);
-    renderizarPaginacao(nav, dados.pagina, lerPaginacao(dados), (p) => {
-      estadoRest.pagina = p;
-      carregarRestaurantes();
-    });
+    estadoRest.itens = itens;
+    exibirRestaurantes();
   } catch (erro) {
     mostrarEstado(lista, "erro", erro.message || "Ocorreu um erro inesperado.");
   }
@@ -127,8 +152,7 @@ async function abrirCardapio(restaurante) {
 
 async function carregarProdutos() {
   const lista = $("lista-produtos");
-  const nav = $("paginacao-produtos");
-  nav.replaceChildren();
+  $("paginacao-produtos").replaceChildren();
 
   $("titulo-produtos").textContent = estadoProd.modo === "cardapio"
     ? `Cardápio de ${estadoProd.nomeRestaurante}`
@@ -137,18 +161,12 @@ async function carregarProdutos() {
   mostrarEstado(lista, "carregando", "Carregando produtos...");
   try {
     const dados = estadoProd.modo === "cardapio"
-      ? await listarProdutosDoRestaurante(estadoProd.restaurante.id, estadoProd.pagina)
-      : await buscarProdutos(estadoProd.termo, estadoProd.pagina);
+      ? await listarProdutosDoRestaurante(estadoProd.restaurante.id)
+      : await buscarProdutos(estadoProd.termo);
     const itens = dados.alimentos;
     if (!itens.length) return mostrarEstado(lista, "vazio", "Nenhum produto encontrado.");
-    lista.replaceChildren();
-    const grade = el("div", "grade");
-    itens.forEach((item) => grade.append(criarCard(item)));
-    lista.append(grade);
-    renderizarPaginacao(nav, dados.pagina, lerPaginacao(dados), (p) => {
-      estadoProd.pagina = p;
-      carregarProdutos();
-    });
+    estadoProd.itens = itens;
+    exibirProdutos();
   } catch (erro) {
     mostrarEstado(lista, "erro", erro.message || "Ocorreu um erro inesperado.");
   }
@@ -172,7 +190,7 @@ $("form-produtos").addEventListener("submit", (e) => {
   e.preventDefault();
   const termo = $("busca-produtos").value.trim();
   if (!termo) return mostrarEstado($("lista-produtos"), "inicial", "Digite um termo para buscar produtos.");
-  Object.assign(estadoProd, { modo: "busca", termo, pagina: 1, restaurante: null });
+  Object.assign(estadoProd, { modo: "busca", termo, restaurante: null, pagina: 1 });
   carregarProdutos();
 });
 

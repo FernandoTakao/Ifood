@@ -9,17 +9,10 @@ const API_URL = "http://localhost:5000";
 const ENDPOINTS = {
   restaurantes: `${API_URL}/restaurantes`,
   restaurante: (idRestaurante) => `${API_URL}/restaurantes/${idRestaurante}`,
+  restaurantesPorNome: (nome) => `${API_URL}/restaurantes/${encodeURIComponent(nome)}`,
   produtosDoRestaurante: (idRestaurante) => `${API_URL}/restaurantes/${idRestaurante}/alimentos`,
-  alimentos: `${API_URL}/alimentos`,
+  alimentosPorNome: (nome) => `${API_URL}/alimentos/${encodeURIComponent(nome)}`,
 };
-
-const PARAMS = {
-  termo: "nome",
-  pagina: "page",
-  limite: "limit"
-};
-
-const ITENS_POR_PAGINA = 6;
 
 // ---------------------------------------------------------------------
 // Erro padronizado para a interface
@@ -33,17 +26,11 @@ class ApiError extends Error {
   }
 }
 
-// Função base: monta a URL com query string, chama fetch e trata erros
-async function requisicao(url, params = {}) {
-  const query = new URLSearchParams();
-  Object.entries(params).forEach(([k, v]) => {
-    if (v !== undefined && v !== null && v !== "") query.set(k, v);
-  });
-  const urlFinal = query.toString() ? `${url}?${query}` : url;
-
+// Função base: chama a URL e trata erros
+async function requisicao(url) {
   let resposta;
   try {
-    resposta = await fetch(urlFinal, { method: "GET", headers: { Accept: "application/json" } });
+    resposta = await fetch(url, { method: "GET", headers: { Accept: "application/json" } });
   } catch (e) {
     // Falha de rede, servidor desligado ou CORS bloqueado
     throw new ApiError("rede", "Não foi possível conectar à API. Verifique se o servidor Flask está executando.");
@@ -66,40 +53,26 @@ async function requisicao(url, params = {}) {
 // Funções por requisição
 // ---------------------------------------------------------------------
 
-// Lista restaurantes (com paginação)
-function listarRestaurantes(pagina = 1) {
-  return requisicao(ENDPOINTS.restaurantes, {
-    [PARAMS.pagina]: pagina,
-    [PARAMS.limite]: ITENS_POR_PAGINA,
-  });
+// Lista todos os restaurantes
+function listarRestaurantes() {
+  return requisicao(ENDPOINTS.restaurantes);
 }
 
-// Busca restaurantes por termo (com paginação)
-function buscarRestaurantes(termo, pagina = 1) {
-  return requisicao(ENDPOINTS.restaurantes, {
-    [PARAMS.termo]: termo,
-    [PARAMS.pagina]: pagina,
-    [PARAMS.limite]: ITENS_POR_PAGINA,
-  });
+// Busca restaurantes por termo
+function buscarRestaurantes(termo) {
+  return requisicao(ENDPOINTS.restaurantesPorNome(termo));
 }
 
 function obterRestaurante(idRestaurante) {
   return requisicao(ENDPOINTS.restaurante(idRestaurante));
 }
 
-// Lista os produtos (cardápio) de um restaurante (com paginação)
-function listarProdutosDoRestaurante(idRestaurante, pagina = 1) {
-  return requisicao(ENDPOINTS.produtosDoRestaurante(idRestaurante), {
-    [PARAMS.pagina]: pagina,
-    [PARAMS.limite]: ITENS_POR_PAGINA,
-  });
+// Lista todos os produtos (cardápio) de um restaurante
+function listarProdutosDoRestaurante(idRestaurante) {
+  return requisicao(ENDPOINTS.produtosDoRestaurante(idRestaurante));
 }
 
-// Busca produtos por termo (com paginação)
-function buscarProdutos(termo, pagina = 1) {
-  return requisicao(ENDPOINTS.alimentos, {
-    [PARAMS.termo]: termo,
-    [PARAMS.pagina]: pagina,
-    [PARAMS.limite]: ITENS_POR_PAGINA,
-  });
+// Busca produtos por termo
+function buscarProdutos(termo) {
+  return requisicao(ENDPOINTS.alimentosPorNome(termo));
 }

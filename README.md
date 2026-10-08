@@ -50,17 +50,19 @@ API simples em Flask para consultar restaurantes e seus alimentos, utilizando My
 
 ## Endpoints principais
 
-- `GET /restaurantes` — lista os restaurantes
+- `GET /restaurantes` — lista todos os restaurantes
+- `GET /restaurantes/<nome>` — busca restaurantes pelo nome
 - `GET /restaurantes/<id>` — busca um restaurante pelo ID
 - `GET /restaurantes/<id>/alimentos` — lista os alimentos de um restaurante
-- `GET /alimentos` — lista todos os alimentos
+- `GET /alimentos/<nome>` — busca alimentos pelo nome
 
-As listagens aceitam os parâmetros de paginação `page` e `limit`. Os endpoints `/restaurantes` e `/alimentos` também aceitam o parâmetro `nome` para busca.
+As rotas retornam todos os resultados correspondentes, sem parâmetros de query string. As buscas por nome são feitas pelo segmento `<nome>` da URL.
+A interface divide os resultados localmente em páginas de 6 cards, sem enviar `page` ou `limit` para a API.
 
 Exemplo:
 
 ```text
-http://localhost:5000/restaurantes?page=1&limit=10&nome=Pizza
+http://localhost:5000/restaurantes/Pizza
 ```
 
 ## Encerrar o banco
